@@ -85,7 +85,7 @@ function cardSwap(workingDeck) {
   return workingDeck = workingDeckFiltered;
 }
 fullDeck = cardSwap(fullDeck)
-console.log(fullDeck);
+// console.log(fullDeck);
 
 //alternate cards and split into two separate player decks
 let player1 = [];
