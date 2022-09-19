@@ -51,18 +51,6 @@ pushN("Joker", fullDeck, 2);
 //Fisher-Yates Algorithim for generating a random permutation of a finite sequence (AKA shuffling a sequence)
 //Fisher-Yates Shuffle
 
-//selects the random number descending of fisher-yates
-
-// function showRandomNum(len) {
-//   while (len.length > 0) {
-//     let randIndex = Math.floor(Math.random() * (len.length - 1));
-//     console.log(randIndex);
-//     len.length--;
-//   }
-// }
-// showRandomNum(fullDeck);
-
-
 //manipulate random number selection into an actual shuffle
 function cardSwap(workingDeck) {
   let startNum = workingDeck.length - 1
@@ -107,10 +95,10 @@ let player2Collected = [];
 let player1Card;
 let player2Card;
 
-function compareCard(player1, player2) {
+function compareCard(player1Hand, player2Hand) {
   // flips over top card from each player
-  player1Card = player1.pop();
-  player2Card = player2.pop();
+  player1Card = player1Hand.pop();
+  player2Card = player2Hand.pop();
   console.log(`Player 1 reveals a ${player1Card}`);
   console.log(`Player 2 reveals a ${player2Card}`);
   //print the rank of each player's card
@@ -132,30 +120,38 @@ function compareCard(player1, player2) {
     //winner takes all cards
     //if someone runs out of cards, winner takes all cards, shuffled decks and repeat entire play through
     console.log("It's a tie! This means WAR!!!!!!!!!!");
-    let tempArr1 = [], tempArr2 = [];
-    if (player1.length >= 4 && player2.length >= 4) {
-
-      //DO NOT MAKE RECURSIVE IN THIS INSTANCE, MUST PRESENT THREE CARDS FIRST OTHERWISE ITS WORKING
-      compareCard(player1, player2)
-    } else if (player1.length >= 4 && player2.length < 4) {
-      player1 = player1.concat(player2)
-      console.log("Player1 takes the rest, shuffle and reset!")
-      console.log(player1, player2)
-    } else if (player2.length >= 4 && player1.length < 4) {
-      player2 = player2.concat(player1)
-      console.log("Player2 takes the rest, shuffle and reset!")
-      console.log(player1, player2)
-    }
   }
 }
-compareCard(player1, player2);
-console.log(player1.length);
-console.log(player2.length);
-compareCard(player1, player2);
-console.log(player1.length);
-console.log(player2.length);
 
 
+
+// let tempArr1 = [], tempArr2 = [];
+// if (player1.length >= 4 && player2.length >= 4) {
+
+//   //DO NOT MAKE RECURSIVE IN THIS INSTANCE, MUST PRESENT THREE CARDS FIRST OTHERWISE ITS WORKING
+//   compareCard(player1, player2)
+// } else if (player1.length >= 4 && player2.length < 4) {
+//   player1 = player1.concat(player2)
+//   console.log("Player1 takes the rest, shuffle and reset!")
+//   console.log(player1, player2)
+// } else if (player2.length >= 4 && player1.length < 4) {
+//   player2 = player2.concat(player1)
+//   console.log("Player2 takes the rest, shuffle and reset!")
+//   console.log(player1, player2)
+// }
+
+// while (player1.length < 0 || player1.length < 54) {
+//   compareCard(player1, player2);
+//   console.log(player1.length);
+//   console.log(player2.length);
+// }
+while (player1.length > 0 || player2.length > 0) {
+  compareCard(player1, player2);
+  console.log(player1.length);
+  console.log(player2.length);
+}
+
+//you can use recursion and then just dump everything from the collected hand back into the playerhand 
 
 
 
@@ -181,6 +177,3 @@ console.log(player2.length);
 
 
 //when either of the player buckets === 0 game is over, print that the opposite player wins
-
-
-
