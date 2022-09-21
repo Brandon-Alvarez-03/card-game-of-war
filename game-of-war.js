@@ -132,31 +132,20 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
 
 }
 
-
-// compareCardGeneral(player1, player2, player1Collected, player2Collected)
-// console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
-// // cardSwap(player1Collected)
-// // cardSwap(player2Collected)
-// compareCardGeneral(player1Collected, player2Collected, player1, player2)
-// console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
-
-// just do when tie --> if both players have more than 4 cards each....pop pop pop popCompare.... whoever is greater take it ehoever is less domnt
-
-
-
-
+//found problem: the cards from the draw are not being collected by the winning tie player
 
 function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
   let tempArr1 = [], tempArr2 = [];
-  tempArr1.unshift(player1Card)
-  tempArr2.unshift(player2Card)
+  tempArr1.push(player1Card)
+  tempArr2.push(player2Card)
+  console.log(tempArr1, tempArr2)
   console.log(blankpile1, blankpile2)
   if (player1Hand >= 4 && player2Hand >= 4) {
     for (let i = 1; i <= 4; i++) {
-      tempArr1 = tempArr1.push(player1Hand.pop())
-      tempArr2 = tempArr2.push(player2Hand.pop())
+      tempArr1.push(player1Hand.pop())
+      tempArr2.push(player2Hand.pop())
     }
-    if (rankObj[tempArr1[4]] > rankObj[tempArr2[4]]) {
+    if (rankObj[tempArr1[-1]] > rankObj[tempArr2[-1]]) {
       blankpile1.concat(tempArr1)
       blankpile1.concat(tempArr2)
     } else if (rankObj[tempArr1[4]] < rankObj[tempArr2[4]]) {
@@ -164,6 +153,7 @@ function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
       blankpile2.concat(tempArr2)
     } else {
       console.log("Repeat War!")
+      tieCase(player1Hand, player2Hand, blankpile1, blankpile2)
     }
   } else if (player1Hand >= 4 && player2Hand < 4) {
     blankpile1.concat(player2Hand)
@@ -178,42 +168,6 @@ function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
 
 compareCardGeneral(player1, player2, player1Collected, player2Collected)
 console.log(player1Collected, player2Collected)
+console.log(player1Card, player2Card)
 console.log(player1.length, player2.length)
 console.log(player1Collected.length, player2Collected.length)
-// compareCardGeneral(player1Collected, player2Collected, player1, player2)
-// console.log(player1.length, player2.length)
-// console.log(player1Collected.length, player2Collected.length)
-
-// while (player1.length > 0 || player2.length > 0) {
-//   compareCard(player1, player2);
-  // console.log(player1.length);
-//   console.log(player2.length);
-// }
-
-
-//you can use recursion and then just dump everything from the collected hand back into the playerhand 
-
-
-
-//if cards are a tie, add three cards, flip forth
-//if either player has less than 4 cards, just hand em over you lose the war, play again
-
-
-
-
-//winner takes all cards
-
-
-
-
-//shuffle individual decks
-
-
-
-
-//play with those decks
-
-
-
-
-//when either of the player buckets === 0 game is over, print that the opposite player wins
