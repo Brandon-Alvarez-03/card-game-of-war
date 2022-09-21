@@ -80,6 +80,7 @@ class GameOfWar {
     this.playerTwo = []
     this.pile = []
     this.gameSetup()
+    this.compare()
   }
 
   gameSetup() {
@@ -89,8 +90,43 @@ class GameOfWar {
     this.playerOne.push(...cards.slice(0, cards.length / 2))
     this.playerTwo.push(...cards.slice(cards.length / 2))
   }
+  shuffle() {
+    let currentIndex = this.cards.length, randomIndex;
+  
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      [this.cards[currentIndex], this.cards[randomIndex]] = [
+        this.cards[randomIndex], this.cards[currentIndex]];
+    }
+  }
+
+  compare() {
+    while (this.playerOne.length > 0 || this.playerTwo.length > 0) {
+      this.pile.push(this.playerOne.pop())
+      this.pile.push(this.playerTwo.pop())
+      console.log(this.pile)
+      console.log(this.pile.length)
+      console.log(`Player 1 reveals a ${this.pile[this.pile.length - 2]}`);
+      console.log(`Player 2 reveals a ${this.pile[this.pile.length - 1]}`);
+
+      if (rankObj[this.pile[this.pile.length - 2]] > rankObj[this.pile[this.pile.length - 1]]) {
+        console.log("Player 1 takes the cards!")
+      } else if (rankObj[this.pile[this.pile.length - 2]] < rankObj[this.pile[this.pile.length - 1]]) {
+        console.log("Player 2 takes the cards!")
+      } else if (this.pile[this.pile.length - 2] == this.pile[this.pile.length - 1]) {
+        console.log("Tie")
+        break;
+      }
+    }
+    this.shuffle
+    return this.pile
+  }
 }
 
 let game = new GameOfWar()
+// console.log(game)
+console.log(game.playerOne, game.playerTwo)
 console.log(game)
 
