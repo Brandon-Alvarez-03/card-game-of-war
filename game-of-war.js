@@ -107,13 +107,13 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
       //case player 1 wins, player 1 collects all cards
       console.log("Player 1 takes the cards!")
       blankpile1.push(player1Card, player2Card)
-      console.log(player1Collected, player2Collected)
+      console.log(blankpile1, blankpile2)
       console.log('--------------------------')
     } else if (rankObj[player2Card] > rankObj[player1Card]) {
       //case player 2 wins, player 2 collects all cards
       console.log("Player 2 takes the cards!")
       blankpile2.push(player1Card, player2Card)
-      console.log(player1Collected, player2Collected)
+      console.log(blankpile1, blankpile2)
       console.log('--------------------------')
     } else if (rankObj[player1Card] == rankObj[player2Card]) {
       //if there is a tie declare war, both players will put in three cards and one face up, repeat until there is a winner
@@ -121,19 +121,24 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
       //if someone runs out of cards, winner takes all cards, shuffled decks and repeat entire play through
       console.log("It's a tie! This means WAR!!!!!!!!!!")
 
-      tieCase(player1Hand, player2Hand)
+      tieCase(player1Hand, player2Hand, player1Collected, player2Collected)
 
     }
   }
+  if ((blankpile1.length + blankpile2.length) < 54) {
+    blankpile1.push(player1Card)
+    blankpile2.push(player2Card)
+  }
+
 }
 
-while ()
-  compareCardGeneral(player1, player2, player1Collected, player2Collected)
-console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
-// cardSwap(player1Collected)
-// cardSwap(player2Collected)
-compareCardGeneral(player1Collected, player2Collected, player1, player2)
-console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
+
+// compareCardGeneral(player1, player2, player1Collected, player2Collected)
+// console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
+// // cardSwap(player1Collected)
+// // cardSwap(player2Collected)
+// compareCardGeneral(player1Collected, player2Collected, player1, player2)
+// console.log(player1.length, player2.length, player1Collected.length, player2Collected.length)
 
 // just do when tie --> if both players have more than 4 cards each....pop pop pop popCompare.... whoever is greater take it ehoever is less domnt
 
@@ -141,38 +146,43 @@ console.log(player1.length, player2.length, player1Collected.length, player2Coll
 
 
 
-function tieCase(player1Hand, player2Hand) {
+function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
   let tempArr1 = [], tempArr2 = [];
   tempArr1.unshift(player1Card)
   tempArr2.unshift(player2Card)
-  console.log(player1Hand, player2Hand)
+  console.log(blankpile1, blankpile2)
   if (player1Hand >= 4 && player2Hand >= 4) {
     for (let i = 1; i <= 4; i++) {
       tempArr1 = tempArr1.push(player1Hand.pop())
       tempArr2 = tempArr2.push(player2Hand.pop())
     }
     if (rankObj[tempArr1[4]] > rankObj[tempArr2[4]]) {
-      player1Hand.concat(tempArr1)
-      player1Hand.concat(tempArr2)
+      blankpile1.concat(tempArr1)
+      blankpile1.concat(tempArr2)
     } else if (rankObj[tempArr1[4]] < rankObj[tempArr2[4]]) {
-      player2Hand.concat(tempArr1)
-      player2Hand.concat(tempArr2)
+      blankpile2.concat(tempArr1)
+      blankpile2.concat(tempArr2)
     } else {
       console.log("Repeat War!")
     }
   } else if (player1Hand >= 4 && player2Hand < 4) {
-    player1Hand.concat(player2Hand)
-    player1Hand.concat(tempArr1)
-    player1Hand.concat(tempArr2)
+    blankpile1.concat(player2Hand)
+    blankpile1.concat(tempArr1)
+    blankpile1.concat(tempArr2)
   } else {
-    player2Hand.concat(player1Hand)
-    player2Hand.concat(tempArr1)
-    player2Hand.concat(tempArr2)
+    blankpile2.concat(player1Hand)
+    blankpile2.concat(tempArr1)
+    blankpile2.concat(tempArr2)
   }
 }
 
-
-
+compareCardGeneral(player1, player2, player1Collected, player2Collected)
+console.log(player1Collected, player2Collected)
+console.log(player1.length, player2.length)
+console.log(player1Collected.length, player2Collected.length)
+// compareCardGeneral(player1Collected, player2Collected, player1, player2)
+// console.log(player1.length, player2.length)
+// console.log(player1Collected.length, player2Collected.length)
 
 // while (player1.length > 0 || player2.length > 0) {
 //   compareCard(player1, player2);
