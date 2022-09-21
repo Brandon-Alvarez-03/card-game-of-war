@@ -76,6 +76,7 @@ class Deck {
 
 class GameOfWar {
   constructor() {
+    this.round = 1
     this.playerOne = []
     this.playerTwo = []
     this.pile = []
@@ -104,6 +105,7 @@ class GameOfWar {
 
   compare() {
     while (this.playerOne.length > 0 || this.playerTwo.length > 0) {
+      console.log(`Round: ${this.round}`)
       this.pile.push(this.playerOne.pop())
       this.pile.push(this.playerTwo.pop())
       console.log(this.pile)
@@ -113,14 +115,20 @@ class GameOfWar {
 
       if (rankObj[this.pile[this.pile.length - 2]] > rankObj[this.pile[this.pile.length - 1]]) {
         console.log("Player 1 takes the cards!")
+        this.playerOne.unshift(...this.pile)
+        this.pile = []
       } else if (rankObj[this.pile[this.pile.length - 2]] < rankObj[this.pile[this.pile.length - 1]]) {
         console.log("Player 2 takes the cards!")
+        this.playerTwo.unshift(...this.pile)
+        this.pile = []
       } else if (this.pile[this.pile.length - 2] == this.pile[this.pile.length - 1]) {
         console.log("Tie")
         break;
       }
+      this.round += 1
+      this.shuffle
     }
-    this.shuffle
+
     return this.pile
   }
 }
