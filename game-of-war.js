@@ -97,32 +97,34 @@ let player2Card;
 //first iteration player1Hand is equal to player 1
 function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
   while (player1Hand.length > 0 || player2Hand.length > 0) {
-    // flips over top card from each player
-    player1Card = player1Hand.pop();
-    player2Card = player2Hand.pop();
-    console.log(`Player 1 reveals a ${player1Card}`);
-    console.log(`Player 2 reveals a ${player2Card}`);
-    //compare cards to see whose ranks higher
-    if (rankObj[player1Card] > rankObj[player2Card]) {
-      //case player 1 wins, player 1 collects all cards
-      console.log("Player 1 takes the cards!")
-      blankpile1.push(player1Card, player2Card)
-      console.log(blankpile1, blankpile2)
-      console.log('--------------------------')
-    } else if (rankObj[player2Card] > rankObj[player1Card]) {
-      //case player 2 wins, player 2 collects all cards
-      console.log("Player 2 takes the cards!")
-      blankpile2.push(player1Card, player2Card)
-      console.log(blankpile1, blankpile2)
-      console.log('--------------------------')
-    } else if (rankObj[player1Card] == rankObj[player2Card]) {
-      //if there is a tie declare war, both players will put in three cards and one face up, repeat until there is a winner
-      //winner takes all cards
-      //if someone runs out of cards, winner takes all cards, shuffled decks and repeat entire play through
-      console.log("It's a tie! This means WAR!!!!!!!!!!")
+    if (player1Hand.length >= 3 && player2Hand.length >= 3) {
+      // flips over top card from each player
+      player1Card = player1Hand.pop();
+      player2Card = player2Hand.pop();
+      console.log(`Player 1 reveals a ${player1Card}`);
+      console.log(`Player 2 reveals a ${player2Card}`);
+      //compare cards to see whose ranks higher
+      if (rankObj[player1Card] > rankObj[player2Card]) {
+        //case player 1 wins, player 1 collects all cards
+        console.log("Player 1 takes the cards!")
+        blankpile1.push(player1Card, player2Card)
+        console.log(blankpile1, blankpile2)
+        console.log('----------------------------------------')
+      } else if (rankObj[player2Card] > rankObj[player1Card]) {
+        //case player 2 wins, player 2 collects all cards
+        console.log("Player 2 takes the cards!")
+        blankpile2.push(player1Card, player2Card)
+        console.log(blankpile1, blankpile2)
+        console.log('----------------------------------------')
+      } else if (rankObj[player1Card] == rankObj[player2Card]) {
+        //if there is a tie declare war, both players will put in three cards and one face up, repeat until there is a winner
+        //winner takes all cards
+        //if someone runs out of cards, winner takes all cards, shuffled decks and repeat entire play through
+        console.log("It's a tie! This means WAR!!!!!!!!!!")
 
-      tieCase(player1Hand, player2Hand, player1Collected, player2Collected)
+        tieCase(player1Hand, player2Hand, blankpile1, blankpile2)
 
+      }
     }
   }
   if ((blankpile1.length + blankpile2.length) < 54) {
@@ -133,17 +135,17 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
 }
 
 //found problem: the cards from the draw are not being collected by the winning tie player
-
+let tempArr1 = [], tempArr2 = [];
 function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
-  let tempArr1 = [], tempArr2 = [];
   tempArr1.push(player1Card)
   tempArr2.push(player2Card)
   console.log(tempArr1, tempArr2)
   console.log(blankpile1, blankpile2)
-  if (player1Hand >= 4 && player2Hand >= 4) {
+  if (player1Hand.length >= 4 && player2Hand.length >= 4) {
     for (let i = 1; i <= 4; i++) {
       tempArr1.push(player1Hand.pop())
       tempArr2.push(player2Hand.pop())
+      console.log(tempArr1, tempArr2)
     }
     if (rankObj[tempArr1[-1]] > rankObj[tempArr2[-1]]) {
       blankpile1.concat(tempArr1)
@@ -153,14 +155,19 @@ function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
       blankpile2.concat(tempArr2)
     } else {
       console.log("Repeat War!")
-      tieCase(player1Hand, player2Hand, blankpile1, blankpile2)
+      if (player1Hand.length >= 4 && player2Hand.length >= 4) {
+        player1Card = player1Hand.pop();
+        player2Card = player2Hand.pop();
+      }
     }
-  } else if (player1Hand >= 4 && player2Hand < 4) {
+  } else if (player1Hand.length >= 4 && player2Hand.length < 4) {
     blankpile1.concat(player2Hand)
+    blankpile1.concat(player1Hand)
     blankpile1.concat(tempArr1)
     blankpile1.concat(tempArr2)
   } else {
     blankpile2.concat(player1Hand)
+    blankpile2.concat(player2Hand)
     blankpile2.concat(tempArr1)
     blankpile2.concat(tempArr2)
   }
