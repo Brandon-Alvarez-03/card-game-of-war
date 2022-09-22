@@ -69,8 +69,7 @@ class Deck {
   }
 
   drawCard() {
-    let randInt = Math.floor(Math.random() * (this.length - 1))
-    return this.cards.splice(randInt, 1)
+    return this.cards.pop()
   }
 }
 
@@ -82,6 +81,7 @@ class GameOfWar {
     this.pile = []
     this.gameSetup()
     this.compare()
+    this.displayWinner()
   }
 
   gameSetup() {
@@ -104,12 +104,11 @@ class GameOfWar {
   }
 
   compare() {
-    while (this.playerOne.length > 0 || this.playerTwo.length > 0) {
+    while (this.playerOne.length >= 4 && this.playerTwo.length >= 4) {
       console.log(`Round: ${this.round}`)
       this.pile.push(this.playerOne.pop())
       this.pile.push(this.playerTwo.pop())
       console.log(this.pile)
-      console.log(this.pile.length)
       console.log(`Player 1 reveals a ${this.pile[this.pile.length - 2]}`);
       console.log(`Player 2 reveals a ${this.pile[this.pile.length - 1]}`);
 
@@ -117,24 +116,77 @@ class GameOfWar {
         console.log("Player 1 takes the cards!")
         this.playerOne.unshift(...this.pile)
         this.pile = []
+        console.log(...this.playerOne)
+        console.log(...this.playerTwo)
+        console.log('---------------------------------')
       } else if (rankObj[this.pile[this.pile.length - 2]] < rankObj[this.pile[this.pile.length - 1]]) {
         console.log("Player 2 takes the cards!")
         this.playerTwo.unshift(...this.pile)
         this.pile = []
+        console.log(...this.playerOne)
+        console.log(...this.playerTwo)
+        console.log('---------------------------------')
       } else if (this.pile[this.pile.length - 2] == this.pile[this.pile.length - 1]) {
         console.log("Tie")
-        break;
+        if (this.playerOne.length >= 4 && this.playerTwo.length >=4) {
+          for (let i = 1; i <= 3; i++) {
+            this.pile.push(this.playerOne.pop())
+            this.pile.push(this.playerTwo.pop())
+          }
+          this.compare()
+        }
+        if (this.playerOne.length < 4 && this.playerTwo.length >= 4) {
+          this.playerTwo.unshift(...this.pile)
+          this.playerTwo.unshift(...this.playerOne)
+          this.pile = []
+          this.playerOne = []
+          console.log(...this.playerOne)
+          console.log(...this.playerTwo)
+          console.log('---------------------------------')
+        } else if (this.playerTwo.length < 4 && this.playerOne.length >=4) {
+          this.playerOne.unshift(...this.pile)
+          this.playerOne.unshift(...this.playerTwo)
+          this.pile = []
+          this.playerTwo = []
+          console.log(...this.playerOne)
+          console.log(...this.playerTwo)
+          console.log('---------------------------------')
+        }
+        
       }
       this.round += 1
       this.shuffle
     }
+    if (this.playerOne.length < 4 && this.playerTwo.length >= 4) {
+      this.playerTwo.unshift(...this.pile)
+      this.playerTwo.unshift(...this.playerOne)
+      this.pile = []
+      this.playerOne = []
 
-    return this.pile
+    } else if (this.playerTwo.length < 4 && this.playerOne.length >=4) {
+      this.playerOne.unshift(...this.pile)
+      this.playerOne.unshift(...this.playerTwo)
+      this.pile = []
+      this.playerTwo = []
+ 
+    }
+    
+    // return this.pile
+  }
+
+  displayWinner() {
+    if (this.playerOne.length > this.playerTwo.length) {
+      console.log(`Player One wins after ${this.round} rounds`)
+    } else {
+      console.log(`Player Two wins after ${this.round} rounds`)
+    }
   }
 }
 
 let game = new GameOfWar()
-// console.log(game)
-console.log(game.playerOne, game.playerTwo)
+
 console.log(game)
+console.log(game.playerOne.length, game.playerTwo.length, game.pile.length)
+
+
 

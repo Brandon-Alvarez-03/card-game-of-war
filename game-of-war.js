@@ -97,7 +97,7 @@ let player2Card;
 //first iteration player1Hand is equal to player 1
 function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
   while (player1Hand.length > 0 || player2Hand.length > 0) {
-    if (player1Hand.length >= 3 && player2Hand.length >= 3) {
+    // if (player1Hand.length >= 3 && player2Hand.length >= 3) {
       // flips over top card from each player
       player1Card = player1Hand.pop();
       player2Card = player2Hand.pop();
@@ -108,13 +108,19 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
         //case player 1 wins, player 1 collects all cards
         console.log("Player 1 takes the cards!")
         blankpile1.push(player1Card, player2Card)
+        blankpile1.concat(tempArr1)
+        blankpile1.concat(tempArr2)
         console.log(blankpile1, blankpile2)
+        console.log(blankpile1.length, blankpile2.length)
         console.log('----------------------------------------')
       } else if (rankObj[player2Card] > rankObj[player1Card]) {
         //case player 2 wins, player 2 collects all cards
         console.log("Player 2 takes the cards!")
         blankpile2.push(player1Card, player2Card)
+        blankpile2.concat(tempArr1)
+        blankpile2.concat(tempArr2)
         console.log(blankpile1, blankpile2)
+        console.log(blankpile1.length, blankpile2.length)
         console.log('----------------------------------------')
       } else if (rankObj[player1Card] == rankObj[player2Card]) {
         //if there is a tie declare war, both players will put in three cards and one face up, repeat until there is a winner
@@ -126,7 +132,7 @@ function compareCardGeneral(player1Hand, player2Hand, blankpile1, blankpile2) {
 
       }
     }
-  }
+  // }
   if ((blankpile1.length + blankpile2.length) < 54) {
     blankpile1.push(player1Card)
     blankpile2.push(player2Card)
@@ -141,35 +147,63 @@ function tieCase(player1Hand, player2Hand, blankpile1, blankpile2) {
   tempArr2.push(player2Card)
   console.log(tempArr1, tempArr2)
   console.log(blankpile1, blankpile2)
+  console.log(player1Hand.length, player2Hand.length)
   if (player1Hand.length >= 4 && player2Hand.length >= 4) {
     for (let i = 1; i <= 4; i++) {
       tempArr1.push(player1Hand.pop())
       tempArr2.push(player2Hand.pop())
       console.log(tempArr1, tempArr2)
     }
-    if (rankObj[tempArr1[-1]] > rankObj[tempArr2[-1]]) {
-      blankpile1.concat(tempArr1)
-      blankpile1.concat(tempArr2)
-    } else if (rankObj[tempArr1[4]] < rankObj[tempArr2[4]]) {
-      blankpile2.concat(tempArr1)
-      blankpile2.concat(tempArr2)
+    console.log(rankObj[tempArr1[tempArr1.length - 1]], rankObj[tempArr2[tempArr2.length - 1]])
+    if (rankObj[tempArr1[tempArr1.length - 1]] > rankObj[tempArr2[tempArr2.length - 1]]) {
+      blankpile1.unshift(...tempArr1)
+      blankpile1.unshift(...tempArr2)
+      console.log(blankpile1, blankpile2)
+      tempArr1 = []
+      tempArr2 = []
+      console.log(tempArr1, tempArr2)
+      console.log(blankpile1.length, blankpile2.length)
+    } else if (rankObj[tempArr1[tempArr1.length - 1]] < rankObj[tempArr2[tempArr2.length - 1]]) {
+      blankpile2.unshift(...tempArr1)
+      blankpile2.unshift(...tempArr2)
+      console.log(blankpile1, blankpile2)
+      tempArr1 = []
+      tempArr2 = []
+      console.log(tempArr1, tempArr2)
+      console.log(blankpile1.length, blankpile2.length)
     } else {
       console.log("Repeat War!")
-      if (player1Hand.length >= 4 && player2Hand.length >= 4) {
-        player1Card = player1Hand.pop();
-        player2Card = player2Hand.pop();
-      }
+      console.log(tempArr1, tempArr2)
+
+      tieCase(player1Hand, player2Hand, blankpile1, blankpile2)
     }
   } else if (player1Hand.length >= 4 && player2Hand.length < 4) {
-    blankpile1.concat(player2Hand)
-    blankpile1.concat(player1Hand)
-    blankpile1.concat(tempArr1)
-    blankpile1.concat(tempArr2)
+    blankpile1.unshift(...player2Hand)
+    blankpile1.unshift(...player1Hand)
+    blankpile1.unshift(...tempArr1)
+    blankpile1.unshift(...tempArr2)
+    tempArr1 = []
+    tempArr2 = []
+    player1Hand = []
+    player2Hand = []
+
+    console.log(player1Hand, player2Hand)
+    console.log(blankpile1, blankpile2)
+    console.log(blankpile1.length, blankpile2.length)
+  } else if (player2Hand.length >= 4 && player1Hand.length < 4) {
+    blankpile2.unshift(...player1Hand)
+    blankpile2.unshift(...player2Hand)
+    blankpile2.unshift(...tempArr1)
+    blankpile2.unshift(...tempArr2)
+    tempArr1 = []
+    tempArr2 = []
+    player1Hand = []
+    player2Hand = []
+    console.log(player1Hand, player2Hand)
+    console.log(blankpile1, blankpile2)
+    console.log(blankpile1.length, blankpile2.length)
   } else {
-    blankpile2.concat(player1Hand)
-    blankpile2.concat(player2Hand)
-    blankpile2.concat(tempArr1)
-    blankpile2.concat(tempArr2)
+    console.log("It's a tie, shuffle and play again!")
   }
 }
 
