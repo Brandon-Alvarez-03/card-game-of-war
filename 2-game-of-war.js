@@ -87,7 +87,7 @@ class GameOfWar {
   gameSetup() {
     const deck = new Deck()
     let cards = deck.cards
-
+    console.log(cards)
     this.playerOne.push(...cards.slice(0, cards.length / 2))
     this.playerTwo.push(...cards.slice(cards.length / 2))
   }
@@ -116,40 +116,44 @@ class GameOfWar {
         console.log("Player 1 takes the cards!")
         this.playerOne.unshift(...this.pile)
         this.pile = []
-        console.log(...this.playerOne)
-        console.log(...this.playerTwo)
+        // console.log(this.playerOne)
+        // console.log(this.playerTwo)
         console.log('---------------------------------')
       } else if (rankObj[this.pile[this.pile.length - 2]] < rankObj[this.pile[this.pile.length - 1]]) {
         console.log("Player 2 takes the cards!")
         this.playerTwo.unshift(...this.pile)
         this.pile = []
-        console.log(...this.playerOne)
-        console.log(...this.playerTwo)
+        // console.log(this.playerOne)
+        // console.log(this.playerTwo)
         console.log('---------------------------------')
       } else if (this.pile[this.pile.length - 2] == this.pile[this.pile.length - 1]) {
         console.log("Tie")
         if (this.playerOne.length >= 4 && this.playerTwo.length >=4) {
-          for (let i = 1; i <= 3; i++) {
-            this.pile.push(this.playerOne.pop())
-            this.pile.push(this.playerTwo.pop())
-          }
+
+          this.pile.push(this.playerOne.pop())
+          this.pile.push(this.playerTwo.pop())
+          this.pile.push(this.playerTwo.pop())
+          this.pile.push(this.playerOne.pop())
+          this.pile.push(this.playerOne.pop())
+          this.pile.push(this.playerTwo.pop())
+
           this.compare()
         }
         if (this.playerOne.length < 4 && this.playerTwo.length >= 4) {
-          this.playerTwo.unshift(...this.pile)
           this.playerTwo.unshift(...this.playerOne)
+          this.playerTwo.unshift(...this.pile)
           this.pile = []
           this.playerOne = []
-          console.log(...this.playerOne)
-          console.log(...this.playerTwo)
+          // console.log(...this.playerOne)
+          // console.log(...this.playerTwo)
           console.log('---------------------------------')
         } else if (this.playerTwo.length < 4 && this.playerOne.length >=4) {
           this.playerOne.unshift(...this.pile)
           this.playerOne.unshift(...this.playerTwo)
           this.pile = []
           this.playerTwo = []
-          console.log(...this.playerOne)
-          console.log(...this.playerTwo)
+          // console.log(...this.playerOne)
+          // console.log(...this.playerTwo)
           console.log('---------------------------------')
         }
         
@@ -158,8 +162,8 @@ class GameOfWar {
       this.shuffle
     }
     if (this.playerOne.length < 4 && this.playerTwo.length >= 4) {
-      this.playerTwo.unshift(...this.pile)
       this.playerTwo.unshift(...this.playerOne)
+      this.playerTwo.unshift(...this.pile)
       this.pile = []
       this.playerOne = []
 
@@ -171,7 +175,7 @@ class GameOfWar {
  
     }
     
-    // return this.pile
+    return this.pile
   }
 
   displayWinner() {
